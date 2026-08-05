@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import {
   Helmet, useTranslations, useModulesManager, useHistory,
 } from '@openimis/fe-core';
-import ModuleCalendar from '../components/ModuleCalendar';
+import { ModuleCalendar } from '@openimis/fe-tasaf_common';
 import {
   MODULE_NAME, STATUS_COLORS, ACTIVITY_STATUS_LIST,
   COORDINATION_ROUTE_ACTIVITY, RIGHT_ACTIVITY_CREATE,

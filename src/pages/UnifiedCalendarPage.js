@@ -1,12 +1,12 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import {
   Helmet, useTranslations, useModulesManager, useHistory,
 } from '@openimis/fe-core';
-import ModuleCalendar from '../components/ModuleCalendar';
+import { ModuleCalendar } from '@openimis/fe-tasaf_common';
 import {
-  MODULE_NAME, SOURCE_COLORS, UNIFIED_SOURCES, COORDINATION_ROUTE_ACTIVITY,
+  MODULE_NAME, SOURCE_COLORS, STATUS_COLORS, ACTIVITY_STATUS_LIST, COORDINATION_ROUTE_ACTIVITY,
 } from '../constants';
 import { fetchUnifiedCalendar } from '../actions';
 import { toISO } from '../utils/dates';
@@ -23,10 +23,7 @@ function UnifiedCalendarPage() {
   const fetching = useSelector((s) => s.coordination.fetchingUnifiedCalendar);
   const error = useSelector((s) => s.coordination.errorUnifiedCalendar);
 
-  const events = useMemo(
-    () => (rawEvents || []).map((e) => ({ ...e, origStatus: e.status, status: e.source })),
-    [rawEvents],
-  );
+  const events = rawEvents || [];
 
   const openEvent = (e) => {
     if (e.source === 'COORDINATION') {
@@ -50,8 +47,11 @@ function UnifiedCalendarPage() {
         fetching={fetching}
         error={error}
         onFetchRange={(from, to) => dispatch(fetchUnifiedCalendar({ dateFrom: toISO(from), dateTo: toISO(to, true) }))}
-        statusColors={SOURCE_COLORS}
-        statusList={UNIFIED_SOURCES}
+        statusColors={STATUS_COLORS}
+        statusList={ACTIVITY_STATUS_LIST}
+        sourceColors={SOURCE_COLORS}
+        ownSource="COORDINATION"
+        unifiedOnly
         onOpenEvent={openEvent}
         onCreate={null}
         title={formatMessage('coordination.unified.page.title')}

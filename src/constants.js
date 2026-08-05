@@ -79,3 +79,11 @@ export const STATUS_ACTIONS = {
   ],
   CANCELLED: [],
 };
+
+export const RIGHT_UNIFIED_CALENDAR_VIEW = 251602;
+
+export const CALENDAR_SOURCE_COLORS = {
+  TRAINING: '#00695C',
+  COORDINATION: '#1565C0',
+  COMMUNICATIONS: '#EF6C00',
+};
