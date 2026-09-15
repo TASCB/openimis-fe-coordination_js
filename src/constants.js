@@ -37,6 +37,11 @@ export const ACTIVITY_STATUS = {
 };
 export const ACTIVITY_STATUS_LIST = Object.values(ACTIVITY_STATUS);
 
+// Status badge follows the openIMIS convention: one neutral grey, not a per-status colour.
+// The per-status map below is retained for places where colour carries information a
+// label does not (calendars, progress trails).
+export const STATUS_CHIP_COLOR = '#9e9e9e';
+
 export const STATUS_COLORS = {
   DRAFT: '#9e9e9e',
   SUBMITTED: '#1976d2',
