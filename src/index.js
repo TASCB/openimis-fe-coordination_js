@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
 import {
-  Event, DateRange, Settings,
+  Event, DateRange, Settings, CalendarToday,
 } from '@material-ui/icons';
 import { FormattedMessage } from '@openimis/fe-core';
 
@@ -49,6 +49,13 @@ const DEFAULT_CONFIG = {
     { path: ROUTE_SETTINGS, component: SettingsPage },
   ],
   'coordination.MainMenu': [
+    {
+      text: <FormattedMessage module="coordination" id="menu.calendar" />,
+      icon: <CalendarToday />,
+      route: `/${ROUTE_CALENDAR}`,
+      filter: (rights) => rights.includes(RIGHT_ACTIVITY_SEARCH),
+      id: 'coordination.calendar',
+    },
     {
       text: <FormattedMessage module="coordination" id="menu.unified" />,
       icon: <DateRange />,
