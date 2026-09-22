@@ -120,7 +120,7 @@ function ActivityPage({ activityUuid }) {
         save={save}
         canSave={canSave}
         saveTooltip={formatMessage('coordination.saveButton.tooltip')}
-        HeadPanel={ActivityHeadPanel}
+        Panels={[ActivityHeadPanel]}
         actions={actions}
         readOnly={!canEditDetails}
         rights={rights}

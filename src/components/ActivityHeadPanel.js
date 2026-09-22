@@ -1,6 +1,8 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import { Divider, Grid, Typography } from '@material-ui/core';
+import {
+  Divider, Grid, Paper, Typography,
+} from '@material-ui/core';
 import { withStyles, withTheme } from '@material-ui/core/styles';
 import {
   FormattedMessage, FormPanel, PublishedComponent, TextInput, withModulesManager,
@@ -10,6 +12,7 @@ import DepartmentPicker from '../pickers/DepartmentPicker';
 import ResponsiblePicker from '../pickers/ResponsiblePicker';
 
 const styles = (theme) => ({
+  paper: theme.paper.paper,
   tableTitle: theme.table.title,
   item: theme.paper.item,
   fullHeight: { height: '100%' },
@@ -22,7 +25,7 @@ class ActivityHeadPanel extends FormPanel {
     } = this.props;
     const a = { ...edited };
     return (
-      <>
+      <Paper className={classes.paper}>
         <Grid container className={classes.tableTitle}>
           <Grid item>
             <Typography>
@@ -129,7 +132,7 @@ class ActivityHeadPanel extends FormPanel {
             />
           </Grid>
         </Grid>
-      </>
+      </Paper>
     );
   }
 }
