@@ -8,7 +8,7 @@ import { ACTION_TYPE } from './reducer';
 import { toISO } from './utils/dates';
 
 const ACTIVITY_LIST_PROJECTION = () => [
-  'id', 'code', 'title', 'status', 'startDatetime', 'endDatetime', 'venue', 'description',
+  'id', 'code', 'title', 'status', 'startDatetime', 'endDatetime', 'venue', 'description', 'jsonExt',
   'department { id code name }', 'location { id code name }', 'responsible { id username }',
   'dateCreated', 'dateUpdated', 'userCreated { username }', 'userUpdated { username }', 'version',
 ];

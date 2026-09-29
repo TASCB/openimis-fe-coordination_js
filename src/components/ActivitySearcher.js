@@ -21,15 +21,15 @@ import {
 } from '../constants';
 import ActivityFilter from './ActivityFilter';
 import StatusChip from './StatusChip';
+import ActivityPreviewDialog from './ActivityPreviewDialog';
 
 const useStyles = makeStyles(() => ({
   searcher: {
-    '& table': { tableLayout: 'fixed' },
     '& table th': { whiteSpace: 'nowrap' },
-    '& table th:nth-child(9), & table td:nth-child(9)': { width: 56 },
-    '& table th:nth-child(10), & table td:nth-child(10)': { width: 56 },
-    '& table th:last-child, & table td:last-child': { width: 32 },
+    '& table th:last-child, & table td:last-child': { whiteSpace: 'nowrap', textAlign: 'right' },
   },
+  sub: { fontSize: 12, color: '#5c6e64', marginTop: 2 },
+  when: { whiteSpace: 'nowrap' },
 }));
 
 function ActivitySearcher({
@@ -44,6 +44,7 @@ function ActivitySearcher({
   const { formatMessage, formatMessageWithValues } = useTranslations(MODULE_NAME, modulesManager);
   const rights = useSelector((store) => store.core.user.i_user.rights ?? []);
   const [toDelete, setToDelete] = useState(null);
+  const [viewed, setViewed] = useState(null);
   const [queryParams, setQueryParams] = useState([]);
   const prevSubmittingRef = useRef();
 
@@ -77,56 +78,49 @@ function ActivitySearcher({
   }, [submittingMutation]);
   useEffect(() => { prevSubmittingRef.current = submittingMutation; });
 
-  const headers = () => {
-    const h = [
-      'coordination.code', 'coordination.title', 'coordination.department', 'coordination.status',
-      'coordination.startDatetime', 'coordination.endDatetime', 'coordination.location',
-      'coordination.responsible',
-    ];
-    h.push('emptyLabel');
-    if (rights.includes(RIGHT_ACTIVITY_DELETE)) h.push('emptyLabel'); 
-    h.push('emptyLabel'); 
-    return h;
-  };
-  const sorts = () => {
-    const s = [
-      ['code', true], ['title', true], null, ['status', true],
-      ['startDatetime', true], ['endDatetime', true], null, null,
-    ];
-    s.push(null); 
-    if (rights.includes(RIGHT_ACTIVITY_DELETE)) s.push(null); 
-    s.push(null); 
-    return s;
-  };
+  const headers = () => [
+    'coordination.code', 'coordination.title', 'coordination.department', 'coordination.status',
+    'coordination.when', 'coordination.venue', 'coordination.responsible', 'coordination.actions',
+  ];
+  const sorts = () => [
+    ['code', true], ['title', true], null, ['status', true], ['startDatetime', true], null, null, null,
+  ];
+  const fmtDate = (v) => (v ? formatDateFromISO(modulesManager, intl, v) : '');
 
   const fetch = (params) => { setQueryParams(params); return fetchActivities(modulesManager, params); };
 
-  const itemFormatters = () => {
-    const f = [
-      (a) => a?.code,
-      (a) => a?.title,
-      (a) => a?.department?.name ?? '',
-      (a) => <StatusChip status={a?.status} />,
-      (a) => (a?.startDatetime ? formatDateFromISO(modulesManager, intl, a.startDatetime) : ''),
-      (a) => (a?.endDatetime ? formatDateFromISO(modulesManager, intl, a.endDatetime) : ''),
-      (a) => a?.location?.name ?? '',
-      (a) => a?.responsible?.username ?? '',
-    ];
-    f.push((a) => (
-      <Tooltip title={formatMessage('coordination.viewDetailsButton.tooltip')}>
-        <IconButton onClick={() => openActivity(a)}><VisibilityIcon /></IconButton>
-      </Tooltip>
-    ));
-    if (rights.includes(RIGHT_ACTIVITY_DELETE)) {
-      f.push((a) => (![ACTIVITY_STATUS.APPROVED, ACTIVITY_STATUS.CANCELLED].includes(a?.status) ? (
-        <Tooltip title={formatMessage('coordination.deleteButton.tooltip')}>
-          <IconButton onClick={() => setToDelete(a)}><DeleteIcon /></IconButton>
+  const itemFormatters = () => [
+    (a) => a?.code,
+    (a) => a?.title,
+    (a) => a?.department?.name ?? '',
+    (a) => <StatusChip status={a?.status} />,
+    (a) => (a?.startDatetime ? (
+      <span className={classes.when}>
+        {fmtDate(a.startDatetime)}
+        {a.endDatetime && fmtDate(a.endDatetime) !== fmtDate(a.startDatetime) ? ` → ${fmtDate(a.endDatetime)}` : ''}
+      </span>
+    ) : ''),
+    (a) => (
+      <>
+        <div>{a?.venue ?? ''}</div>
+        {a?.location?.name && <div className={classes.sub}>{a.location.name}</div>}
+      </>
+    ),
+    (a) => a?.responsible?.username ?? '',
+    (a) => (
+      <>
+        <Tooltip title={formatMessage('coordination.viewDetailsButton.tooltip')}>
+          <IconButton onClick={() => setViewed(a)}><VisibilityIcon /></IconButton>
         </Tooltip>
-      ) : null));
-    }
-    f.push(() => ''); 
-    return f;
-  };
+        {rights.includes(RIGHT_ACTIVITY_DELETE)
+          && ![ACTIVITY_STATUS.APPROVED, ACTIVITY_STATUS.CANCELLED].includes(a?.status) && (
+          <Tooltip title={formatMessage('coordination.deleteButton.tooltip')}>
+            <IconButton onClick={() => setToDelete(a)}><DeleteIcon /></IconButton>
+          </Tooltip>
+        )}
+      </>
+    ),
+  ];
 
   const filterPane = ({ filters, onChangeFilters }) => (
     <ActivityFilter filters={filters} onChangeFilters={onChangeFilters} />
@@ -134,6 +128,11 @@ function ActivitySearcher({
 
   return (
     <div className={classes.searcher}>
+      <ActivityPreviewDialog
+        activity={viewed}
+        onClose={() => setViewed(null)}
+        onOpen={rights.includes(RIGHT_ACTIVITY_SEARCH) ? openActivity : null}
+      />
       <Searcher
         module="coordination"
         FilterPane={filterPane}
@@ -150,7 +149,7 @@ function ActivitySearcher({
         rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
         defaultPageSize={DEFAULT_PAGE_SIZE}
         rowIdentifier={(a) => a.id}
-        onDoubleClick={openActivity}
+        onDoubleClick={(a) => setViewed(a)}
       />
     </div>
   );
