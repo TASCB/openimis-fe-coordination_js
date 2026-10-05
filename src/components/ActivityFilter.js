@@ -81,6 +81,7 @@ function ActivityFilter({ classes, filters, onChangeFilters }) {
         <PublishedComponent
           pubRef="location.DetailedLocationFilter"
           withNull
+          anchor="parentLocation"
           filters={filters}
           onChangeFilters={onChangeFilters}
         />
