@@ -85,6 +85,8 @@
   "coordination.calendar.prev": "Previous",
   "coordination.calendar.next": "Next",
   "coordination.calendar.statusFilter": "Filter",
+  "coordination.calendar.status": "Status",
+  "coordination.calendar.allStatuses": "All statuses",
   "coordination.calendar.dow.mon": "Mon",
   "coordination.calendar.dow.tue": "Tue",
   "coordination.calendar.dow.wed": "Wed",
