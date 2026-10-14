@@ -37,20 +37,7 @@ export const ACTIVITY_STATUS = {
 };
 export const ACTIVITY_STATUS_LIST = Object.values(ACTIVITY_STATUS);
 
-// Status badge follows the openIMIS convention: one neutral grey, not a per-status colour.
-// The per-status map below is retained for places where colour carries information a
-// label does not (calendars, progress trails).
 export const STATUS_CHIP_COLOR = '#9e9e9e';
-
-export const STATUS_COLORS = {
-  DRAFT: '#9e9e9e',
-  SUBMITTED: '#1976d2',
-  MANAGER_APPROVED: '#0288d1',
-  OFFICER_APPROVED: '#7b1fa2',
-  APPROVED: '#2e7d32',
-  REJECTED: '#d32f2f',
-  CANCELLED: '#7f1d1d',
-};
 
 export const UNIFIED_SOURCES = ['COORDINATION', 'TRAINING', 'COMMUNICATIONS'];
 export const SOURCE_COLORS = {

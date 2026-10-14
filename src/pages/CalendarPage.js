@@ -6,7 +6,7 @@ import {
 } from '@openimis/fe-core';
 import { ModuleCalendar } from '@openimis/fe-tasaf_common';
 import {
-  MODULE_NAME, STATUS_COLORS, ACTIVITY_STATUS_LIST,
+  MODULE_NAME, ACTIVITY_STATUS_LIST,
   COORDINATION_ROUTE_ACTIVITY, RIGHT_ACTIVITY_CREATE,
 } from '../constants';
 import { fetchCalendar } from '../actions';
@@ -36,7 +36,6 @@ function CalendarPage() {
         fetching={fetching}
         error={error}
         onFetchRange={(from, to) => dispatch(fetchCalendar({ dateFrom: toISO(from), dateTo: toISO(to, true) }))}
-        statusColors={STATUS_COLORS}
         statusList={ACTIVITY_STATUS_LIST}
         onOpenEvent={(e) => history.push(`/${detailRef}/${e.id}`)}
         onCreate={rights.includes(RIGHT_ACTIVITY_CREATE) ? (date) => history.push(`/${detailRef}${date ? `?date=${date}` : ''}`) : null}

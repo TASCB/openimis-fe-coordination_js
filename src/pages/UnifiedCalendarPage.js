@@ -6,7 +6,7 @@ import {
 } from '@openimis/fe-core';
 import { ModuleCalendar } from '@openimis/fe-tasaf_common';
 import {
-  MODULE_NAME, SOURCE_COLORS, STATUS_COLORS, ACTIVITY_STATUS_LIST, COORDINATION_ROUTE_ACTIVITY,
+  MODULE_NAME, SOURCE_COLORS, ACTIVITY_STATUS_LIST, COORDINATION_ROUTE_ACTIVITY,
 } from '../constants';
 import { fetchUnifiedCalendar } from '../actions';
 import { toISO } from '../utils/dates';
@@ -47,7 +47,6 @@ function UnifiedCalendarPage() {
         fetching={fetching}
         error={error}
         onFetchRange={(from, to) => dispatch(fetchUnifiedCalendar({ dateFrom: toISO(from), dateTo: toISO(to, true) }))}
-        statusColors={STATUS_COLORS}
         statusList={ACTIVITY_STATUS_LIST}
         sourceColors={SOURCE_COLORS}
         ownSource="COORDINATION"

@@ -37,8 +37,8 @@ const useStyles = makeStyles((theme) => {
     factSub: { fontSize: 12, color: PREVIEW_MUTED, marginTop: 1 },
     none: { color: '#9aa8a0', fontSize: 14 },
     reason: {
-      padding: '12px 16px', borderLeft: '3px solid #c0392b', background: '#fdf3f2',
-      borderRadius: '0 10px 10px 0', color: PREVIEW_INK, fontSize: 14.5, lineHeight: 1.6,
+      padding: '12px 16px', background: '#fdf3f2',
+      borderRadius: 10, color: PREVIEW_INK, fontSize: 14.5, lineHeight: 1.6,
     },
   };
 });
