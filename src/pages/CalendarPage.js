@@ -39,7 +39,7 @@ function CalendarPage() {
         statusColors={STATUS_COLORS}
         statusList={ACTIVITY_STATUS_LIST}
         onOpenEvent={(e) => history.push(`/${detailRef}/${e.id}`)}
-        onCreate={rights.includes(RIGHT_ACTIVITY_CREATE) ? () => history.push(`/${detailRef}`) : null}
+        onCreate={rights.includes(RIGHT_ACTIVITY_CREATE) ? (date) => history.push(`/${detailRef}${date ? `?date=${date}` : ''}`) : null}
         title={formatMessage('coordination.calendar.page.title')}
         subtitle={formatMessage('coordination.calendar.subtitle')}
       />
